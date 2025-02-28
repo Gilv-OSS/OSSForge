@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSSForge - Autonomous Freelance Engineering Platform</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/xterm.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo-container">
+                <img src="../../assets/logo.png" alt="OSSForge Logo" class="logo">
+                <h1>OSSForge</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#" class="active" data-view="ide">IDE</a></li>
+                    <li><a href="#" data-view="agents">Agents</a></li>
+                    <li><a href="#" data-view="docker">Docker</a></li>
+                    <li><a href="#" data-view="github">GitHub</a></li>
+                    <li><a href="#" data-view="settings">Settings</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="app-content">
+            <!-- IDE View -->
+            <section id="ide-view" class="view active">
+                <div class="ide-container">
+                    <div class="sidebar">
+                        <div class="file-explorer">
+                            <h3>File Explorer</h3>
+                            <div id="file-tree"></div>
+                        </div>
+                    </div>
+                    <div class="editor-container">
+                        <div id="editor"></div>
+                    </div>
+                    <div class="terminal-container">
+                        <h3>Terminal</h3>
+                        <div id="terminal"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agents View -->
+            <section id="agents-view" class="view">
+                <h2>AI Agents</h2>
+                <div class="agents-grid">
+                    <div class="agent-card">
+                        <h3>Supervisor Agent</h3>
+                        <p>Coordinates all agent activities and manages workflow</p>
+                        <button class="agent-action" data-agent="supervisor">Execute Task</button>
+                    </div>
+                    <div class="agent-card">
+                        <h3>Development Agent</h3>
+                        <p>Writes and optimizes code based on requirements</p>
+                        <button class="agent-action" data-agent="development">Write Code</button>
+                    </div>
+                    <div class="agent-card">
+                        <h3>Git Agent</h3>
+                        <p>Manages repositories and version control</p>
+                        <button class="agent-action" data-agent="git">Auto Commit</button>
+                    </div>
+                    <div class="agent-card">
+                        <h3>Search Agent</h3>
+                        <p>Discovers relevant GitHub projects and solutions</p>
+                        <button class="agent-action" data-agent="search">Find Projects</button>
+                    </div>
+                    <div class="agent-card">
+                        <h3>Terminal Agent</h3>
+                        <p>Executes commands and manages containers</p>
+                        <button class="agent-action" data-agent="terminal">Execute Command</button>
+                    </div>
+                </div>
+                <div class="agent-task-panel">
+                    <h3>Agent Task</h3>
+                    <textarea id="agent-task-input" placeholder="Describe the task for the agent..."></textarea>
+                    <button id="execute-agent-task">Execute</button>
+                    <div id="agent-task-result"></div>
+                </div>
+            </section>
+
+            <!-- Docker View -->
+            <section id="docker-view" class="view">
+                <h2>Docker Management</h2>
+                <div class="docker-controls">
+                    <button id="refresh-containers">Refresh</button>
+                    <button id="create-container">Create Container</button>
+                </div>
+                <div class="container-list">
+                    <table id="containers-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Image</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="containers-body">
+                            <!-- Container rows will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="container-create-form" class="modal">
+                    <div class="modal-content">
+                        <h3>Create Container</h3>
+                        <form id="create-container-form">
+                            <div class="form-group">
+                                <label for="container-name">Name</label>
+                                <input type="text" id="container-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="container-image">Image</label>
+                                <input type="text" id="container-image" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="container-ports">Ports (host:container)</label>
+                                <input type="text" id="container-ports" placeholder="8080:80">
+                            </div>
+                            <div class="form-group">
+                                <label for="container-volumes">Volumes (host:container)</label>
+                                <input type="text" id="container-volumes" placeholder="/host/path:/container/path">
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" id="cancel-create">Cancel</button>
+                                <button type="submit">Create</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GitHub View -->
+            <section id="github-view" class="view">
+                <h2>GitHub Integration</h2>
+                <div class="github-search">
+                    <input type="text" id="github-search-input" placeholder="Search GitHub repositories...">
+                    <button id="github-search-button">Search</button>
+                </div>
+                <div id="github-results"></div>
+                <div class="github-clone">
+                    <h3>Clone Repository</h3>
+                    <div class="form-group">
+                        <label for="repo-url">Repository URL</label>
+                        <input type="text" id="repo-url" placeholder="https://github.com/username/repo.git">
+                    </div>
+                    <div class="form-group">
+                        <label for="local-path">Local Path</label>
+                        <input type="text" id="local-path" placeholder="/path/to/local/directory">
+                    </div>
+                    <button id="clone-repo">Clone</button>
+                </div>
+            </section>
+
+            <!-- Settings View -->
+            <section id="settings-view" class="view">
+                <h2>Settings</h2>
+                <form id="settings-form">
+                    <div class="settings-group">
+                        <h3>General</h3>
+                        <div class="form-group">
+                            <label for="projects-directory">Projects Directory</label>
+                            <input type="text" id="projects-directory">
+                        </div>
+                        <div class="form-group">
+                            <label for="theme">Theme</label>
+                            <select id="theme">
+                                <option value="light">Light</option>
+                                <option value="dark">Dark</option>
+                                <option value="system">System</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="settings-group">
+                        <h3>Docker</h3>
+                        <div class="form-group">
+                            <label for="docker-host">Docker Host</label>
+                            <input type="text" id="docker-host" placeholder="unix:///var/run/docker.sock">
+                        </div>
+                    </div>
+                    <div class="settings-group">
+                        <h3>GitHub</h3>
+                        <div class="form-group">
+                            <label for="github-token">GitHub Token</label>
+                            <input type="password" id="github-token">
+                        </div>
+                    </div>
+                    <div class="settings-group">
+                        <h3>Nelua</h3>
+                        <div class="form-group">
+                            <label for="nelua-path">Nelua Path</label>
+                            <input type="text" id="nelua-path">
+                        </div>
+                    </div>
+                    <button type="submit">Save Settings</button>
+                </form>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <p>OSSForge v0.1.0 - Autonomous Freelance Engineering Platform</p>
+        </footer>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

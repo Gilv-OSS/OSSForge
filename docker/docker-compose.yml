@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  ossforge:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: ossforge
+    ports:
+      - "3000:3000"
+    volumes:
+      - ..:/app
+      - /app/node_modules
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - NODE_ENV=development
+      - ELECTRON_DISABLE_SANDBOX=1
+    restart: unless-stopped
+
+  nelua-dev:
+    image: alpine:latest
+    container_name: nelua-dev
+    volumes:
+      - ../workspace:/workspace
+    working_dir: /workspace
+    command: tail -f /dev/null
+    restart: unless-stopped
+
+  python-dev:
+    image: python:3.9-slim
+    container_name: python-dev
+    volumes:
+      - ../workspace:/workspace
+    working_dir: /workspace
+    command: tail -f /dev/null
+    restart: unless-stopped
+
+  node-dev:
+    image: node:18-slim
+    container_name: node-dev
+    volumes:
+      - ../workspace:/workspace
+    working_dir: /workspace
+    command: tail -f /dev/null
+    restart: unless-stopped
