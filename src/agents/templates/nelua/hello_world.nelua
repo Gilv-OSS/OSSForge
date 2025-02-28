@@ -1,0 +1,16 @@
+--[[ 
+  Nelua Hello World Example
+  A simple hello world program in Nelua
+]]
+
+-- Import the standard library
+require 'io'
+
+-- Main function
+local function main()
+  print("Hello, World!")
+  return 0
+end
+
+-- Call the main function
+return main()

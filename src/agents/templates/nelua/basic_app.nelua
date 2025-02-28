@@ -1,0 +1,61 @@
+--[[ 
+  Nelua Basic Application Template
+  A template for creating basic Nelua applications
+]]
+
+-- Import standard libraries
+require 'io'
+require 'string'
+require 'math'
+
+-- Define a record type for a person
+local Person = @record{
+  name: string,
+  age: integer,
+  email: string
+}
+
+-- Method to create a new person
+function Person.new(name: string, age: integer, email: string): Person
+  return {
+    name = name,
+    age = age,
+    email = email
+  }
+end
+
+-- Method to print person details
+function Person:print_details()
+  print(string.format("Name: %s, Age: %d, Email: %s", self.name, self.age, self.email))
+end
+
+-- Function to greet a person
+local function greet(person: Person)
+  print(string.format("Hello, %s!", person.name))
+end
+
+-- Main function
+local function main()
+  print("Nelua Basic Application")
+  print("----------------------")
+  
+  -- Create a new person
+  local person = Person.new("John Doe", 30, "john@example.com")
+  
+  -- Greet the person
+  greet(person)
+  
+  -- Print person details
+  person:print_details()
+  
+  -- Demonstrate some math operations
+  print("\nMath Operations:")
+  print(string.format("PI: %.4f", math.pi))
+  print(string.format("Square root of 16: %.2f", math.sqrt(16)))
+  print(string.format("Random number: %.2f", math.random()))
+  
+  return 0
+end
+
+-- Call the main function
+return main()
